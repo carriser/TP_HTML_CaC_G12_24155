@@ -7,6 +7,10 @@ header {
     padding: 20px 0;
 }
 
+h1 {
+    text-align: center;
+}
+
 .caja{
     width: 940px;
     position: relative;
@@ -21,7 +25,7 @@ nav{
 
 nav li{
     display: inline;
-    margin: 0 0 0 15px;
+    margin: 0 0 0 5px;
 }
 
 nav a{
@@ -213,6 +217,13 @@ footer{
     background: linear-gradient(#FEFEFE, #cccccc);
 }
 
+.contenedor-centrado {
+    display:flex;
+    width: 100%;
+    justify-content: center;
+    font-size: 20px;
+}
+
 form{
     margin: 0 0 10px;
     padding: 50px;
@@ -264,7 +275,7 @@ form table th{
     transform: scale(1.2);
 }
 
-table{
+.tabla1{
     margin: 40px auto 40px;
 }
 
@@ -277,6 +288,17 @@ thead{
 td{
     border: 1px solid #000000;
     padding: 8px 15px;
+}
+
+.tabla2 {
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+    font-weight: bold;
+    /*background-color: #390e8c;*/
+    border: 1px solid lightslategray;
+    border-radius: 5px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
 }
 
 /* Puntos de corte */

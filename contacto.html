@@ -4,9 +4,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width"> 
         <title>Club de Caballeros</title>
-        <link rel="stylesheet" href="reset.css">
-        <link rel="stylesheet" href="style.css">
-        <link rel="icon" href="imagenes/logo-ovalo.ico">
+        <link rel="stylesheet" href="./static/css/reset.css">
+        <link rel="stylesheet" href="./static/css/style.css">
+        <link rel="icon" href="./static/imagenes/logo-ovalo.ico">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -16,35 +16,36 @@
     <body>
         <header>
             <div class="caja">
-                <img src="imagenes/logo-principal 350x270.png" alt="logo de la barbería">
+                <img src="./static/imagenes/logo-principal 350x270.png" alt="logo de la barbería">
                 <nav>
                     <ul>
                         <li><a href="index.html">Home</a></li>
                         <li><a href="productos.html">Productos</a></li>
                         <li><a href="estilos.html">Estilos</a></li>
                         <li><a href="contacto.html">Contacto</a></li>
+                        <li><a href="consultas.html">Consultas</a></li>
                     </ul>
                 </nav>
             </div>
         </header>
         <main>
-            <div class="contenedor">    
+            <div class="contenedor">
                 <div class="container d-flex justify-content-center">
-                    <form action="" method="" id="form">
+                    <form action="" method="" id="form" enctype="multipart/form-data">
                         <label for="nombreApellido">Nombre y Apellido</label>
-                        <input type="text" id="nombreApellido" class="form-control" placeholder="Ingrese su nombre y apellido">
+                        <input type="text" id="nombreApellido" class="form-control" placeholder="Ingrese su nombre y apellido" required>
 
                         <label for="correoElectronico">Correo Electrónico</label>
-                        <input type="email" id="correoElectronico" class="form-control" placeholder="email@dominio.com">
+                        <input type="email" id="correoElectronico" class="form-control" placeholder="email@dominio.com" required>
 
                         <label for="telefono">Teléfono</label>
-                        <input type="tel" id="telefono" class="form-control" placeholder="(XXX) XXXX XXXX">
+                        <input type="tel" id="telefono" class="form-control" placeholder="(XXX) XXXX XXXX" required>
 
                         <label for="mensaje">Mensaje</label>
                         <textarea cols="70" rows="5" id="mensaje" class="form-control" placeholder="Escriba aquí su mensaje"></textarea>
 
                         <label for="formFile" class="form-label">Seleccione una foto para enviar: </label>
-                        <input class="form-control" type="file" id="formFile">
+                        <input class="form-control" type="file" id="formFile" accept=".jpg,.png,.jpeg,.bmp">
 
                         <fieldset>
                             <legend>¿Cómo le gustaría que lo contactemos?</legend>
@@ -53,7 +54,7 @@
                             <label for="radio-whatsapp"><input type="radio" name="contacto" value="whatsapp" id="radio-whatsapp" checked>WhatsApp</label>
                         </fieldset>
 
-                        <table>
+                        <table class="tabla1">
                             <thead>
                                 <tr>
                                     <th colspan="2">Atendemos</th>
@@ -80,17 +81,31 @@
                                 </tr>
                             </tbody>
                         </table>
-                    
+
                         <fieldset>
-                            <legend>¿En cuál horario prefiere ser atendido?</legend>
-                            <select>
-                                <option>Mañana</option>
-                                <option>Tarde</option>
-                                <option>Noche</option>
+                            <legend>¿Qué día y hora prefiere ser atendido?</legend>
+                            <select name="dia" id="dia">
+                                <option>Lunes</option>
+                                <option>Míercoles</option>
+                                <option>Viernes</option>
+                            </select>
+                            <select name="hora" id="hora">
+                                <option>08:00</option>
+                                <option>09:00</option>
+                                <option>10:00</option>
+                                <option>11:00</option>
+                                <option>12:00</option>
+                                <option>13:00</option>
+                                <option>14:00</option>
+                                <option>15:00</option>
+                                <option>16:00</option>
+                                <option>17:00</option>
+                                <option>18:00</option>
+                                <option>19:00</option>
                             </select>
                         </fieldset>
 
-                        <label class="checkbox"><input type="checkbox" checked>¿Le gustaría recibir novedades de la Barbería?</label>
+                        <label class="checkbox"><input type="checkbox" checked id="info" value="SI">¿Le gustaría recibir novedades de la Barbería?</label>
                         <div class="d-grid gap-2 col-6 mx-auto">
                             <button type="submit" class="btn btn-primary">Enviar formulario</button>
                         </div>
@@ -100,12 +115,65 @@
         </main>
 
         <footer>
-            <img src="imagenes/logo-foot.png">
+            <img src="./static/imagenes/logo-foot.png">
             <p class="copyright">&copy Copyright Barbería Club de Caballeros - 2020</p>
             <a href="https://www.facebook.com/BarberiaClubDeCaballeros" target="_blank"> <i class="fab fa-facebook fa-2x" aria-hidden="true"></i></a>
             <a href="https://www.instagram.com/barberiaclubdecaballerosok/?hl=es" target="_blank"> <i class="fab fa-instagram fa-2x" aria-hidden="true"></i></a>
         </footer>
 
         <script src="form.js"></script>
+
+        <script>
+            const URL = "http://127.0.0.1/"
+            // cambiar esta URL const URL = "https://FlorCodo.pythonanywhere.com/"
+
+            //Al subir al servidor, deberá utilizarse la siguiente ruta. USUARIO debe ser reemplazado por el nombre de usuario de Pythonanywhere
+            //const URL = "https://USUARIO.pythonanywhere.com/"
+
+
+            // Capturamos el evento de envío del formulario
+            document.getElementById('form').addEventListener('submit', function (event) {
+                event.preventDefault(); // Evitamos que se envie el form
+
+                var formData = new FormData(this);
+
+                // Realizamos la solicitud POST al servidor
+                fetch(URL + 'clientes', {
+                    method: 'POST',
+                    body: formData // Aquí enviamos formData. Dado que formData puede contener archivos, no se utiliza JSON.
+                })
+
+                //Después de realizar la solicitud POST, se utiliza el método then() para manejar la respuesta del servidor.
+                .then(function (response) {
+                        if (response.ok) {
+                            //Si la respuesta es exitosa, convierte los datos de la respuesta a formato JSON.
+                            return response.json();
+                        } else {
+                            // Si hubo un error, lanzar explícitamente una excepción
+                            // para ser "catcheada" más adelante
+                            throw new Error('Error al agregar el cliente.');
+                        }
+                })
+
+                    //Respuesta OK, muestra una alerta informando que el producto se agregó correctamente y limpia los campos del formulario para que puedan ser utilizados para un nuevo cliente.
+                    .then(function (data) {
+                        alert('Cliente agregado correctamente.');
+                    })
+
+                    // En caso de error, mostramos un alerta con un mensaje de error.
+                    .catch(function (error) {
+                        alert('Error al agregar el cliente.');
+                    })
+
+                    // Limpiar el formulario en ambos casos (éxito o error)
+                    .finally(function () {
+                        document.getElementById('nombre').value = "";
+                        document.getElementById('correo').value = "";
+                        document.getElementById('telefono').value = "";
+                        document.getElementById('mensaje').value = "";
+                        document.getElementById('formFile').value = "";
+                    });
+            })
+        </script>
     </body>
 </html>
