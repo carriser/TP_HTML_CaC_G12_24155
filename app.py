@@ -20,7 +20,7 @@ import time
 app = Flask(__name__)
 CORS(app)  # Esto habilitará CORS para todas las rutas
 
-class Cliente:
+class Contacto:
     #----------------------------------------------------------------
     # Constructor de la clase
     def __init__(self, host, user, password, database):
@@ -45,13 +45,13 @@ class Cliente:
             codigo INT AUTO_INCREMENT PRIMARY KEY,
             nombre VARCHAR(255) NOT NULL,
             correo VARCHAR(255) NOT NULL,
-            telefono INT NOT NULL,
+            telefono VARCHAR(255) NOT NULL,
             mensaje VARCHAR(255),
             imagen_url VARCHAR(255),
             contacto VARCHAR(255) NOT NULL,
             turno_dia VARCHAR(255) NOT NULL,
             turno_hora TIME NOT NULL,
-            novedad VARCHAR(255)''')
+            novedad VARCHAR(255))''')
         self.conn.commit()
         
         # Cerrar el cursor inicial y abrir uno nuevo con el parámetro dictionary=True
@@ -112,23 +112,27 @@ class Cliente:
 # Cuerpo del programa
 #--------------------------------------------------------------------
 # Crear una instancia de la clase Cliente
-cliente = Cliente(host='localhost', user='root', password='sergiusdba', database='miapp')
+contacto = Contacto(host='localhost', user='root', password='', database='miapp')
+#cliente = Clientes(host='sergiopython.mysql.pythonanywhere-services.com', user='sergiopython', password='sergio011064', database='sergiopython$miapp')
 #catalogo = Catalogo(host='juanpablocodo.mysql.pythonanywhere-services.com', user='juanpablocodo', password='root-123456', database='juanpablocodo$miapp')
+#catalogo = Catalogo(host='florcodo1.mysql.pythonanywhere-services.com', user='FlorCodo1', password='root-123456', database='FlorCodo1$miapp')
 
 # Carpeta para guardar las imagenes
-ruta_destino = './static/imagenes/'
+#ruta_destino = '/home/florcodo1/static/imagenes/'
 #ruta_destino = '/home/juanpablocodo/mysite/static/imagenes/'
+ruta_destino = './static/imagenes/'
+#ruta_destino = '/home/sergiopython/mysite/static/imagenes/'
 
 # Lista completa de clientes
 @app.route("/clientes", methods=["GET"])  #GET nos trae los clientes
 def listar_clientes():
-    clientes = cliente.listar_clientes()  #lista de diccionarios con los clientes
+    clientes = contacto.listar_clientes()  #lista de diccionarios con los clientes
     return jsonify(clientes)  #convierto a json el diccionario
 
 # Muestra un cliente
 @app.route("/clientes/<int:codigo>", methods=["GET"])  #traigo solo un código de cliente
 def mostrar_cliente(codigo):
-    cliente = cliente.consultar_cliente(codigo)
+    cliente = contacto.consultar_cliente(codigo)
     if cliente:
         return jsonify(cliente)  #lista de diccionario de clientes
     else:
@@ -154,7 +158,7 @@ def agregar_cliente():
     nombre_base, extension = os.path.splitext(nombre_imagen)
     nombre_imagen = f"{nombre_base}_{int(time.time())}{extension}"
 
-    nuevo_codigo = cliente.agregar_cliente(nombre, correo, telefono, mensaje, nombre_imagen, contacto, turno_dia, turno_hora, novedad)
+    nuevo_codigo = contacto.agregar_cliente(nombre, correo, telefono, mensaje, nombre_imagen, contacto, turno_dia, turno_hora, novedad)
     if nuevo_codigo:
         imagen.save(os.path.join(ruta_destino, nombre_imagen))
         return jsonify({"mensaje": "Cliente agregado correctamente.", "codigo": nuevo_codigo, "imagen": nombre_imagen}), 201
@@ -183,7 +187,7 @@ def modificar_cliente(codigo):
         imagen.save(os.path.join(ruta_destino, nombre_imagen))
 
         # Busco el cliente guardado
-        cliente = cliente.consultar_cliente(codigo)
+        cliente = contacto.consultar_cliente(codigo)
         if cliente: # Si existe el cliente...
             imagen_vieja = cliente["imagen_url"]
             # Armo la ruta a la imagen
@@ -193,12 +197,12 @@ def modificar_cliente(codigo):
             if os.path.exists(ruta_imagen):
                 os.remove(ruta_imagen)
     else:
-        cliente = cliente.consultar_cliente(codigo)
+        cliente = contacto.consultar_cliente(codigo)
         if cliente:
             nombre_imagen = cliente["imagen_url"]
 
    # Se llama al método modificar_cliente pasando el codigo del cliente y los nuevos datos.
-    if cliente.modificar_cliente(codigo, nuevo_correo, nuevo_telefono, nuevo_mensaje, nombre_imagen, nuevo_turno_dia, nuevo_turno_hora):
+    if contacto.modificar_cliente(codigo, nuevo_correo, nuevo_telefono, nuevo_mensaje, nombre_imagen, nuevo_turno_dia, nuevo_turno_hora):
         return jsonify({"mensaje": "Cliente modificado"}), 200
     else:
         return jsonify({"mensaje": "Cliente no encontrado"}), 403
@@ -207,7 +211,7 @@ def modificar_cliente(codigo):
 @app.route("/clientes/<int:codigo>", methods=["DELETE"])
 def eliminar_cliente(codigo):
     # Primero, obtiene la información del cliente para encontrar la imagen
-    cliente = cliente.consultar_cliente(codigo)
+    cliente = contacto.consultar_cliente(codigo)
     if cliente:
         # Eliminar la imagen asociada si existe
         ruta_imagen = os.path.join(ruta_destino, cliente['imagen_url'])
@@ -215,7 +219,7 @@ def eliminar_cliente(codigo):
             os.remove(ruta_imagen)
 
         # Luego, elimina el cliente
-        if cliente.eliminar_cliente(codigo):
+        if contacto.eliminar_cliente(codigo):
             return jsonify({"mensaje": "Cliente eliminado"}), 200
         else:
             return jsonify({"mensaje": "Error al eliminar el cliente"}), 500
